@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        - PHP_VERSION=${PHP_VERSION:-8.1.8}
+      dockerfile: .docker/php/Dockerfile
+    working_dir: /symfony_app
+    user: ${UID:-1000}:${GID:-1000}
+    restart: unless-stopped
+    volumes:
+      - ./:/symfony_app
+    deploy:
+      mode: replicated
+      replicas: 1
+    depends_on:
+      - db
+    container_name: symf_test_php
+
+  db:
+    image: "postgres:${POSTGRES_VERSION:-14}"
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - db_data
+    container_name: symf_test_db
+    environment:
+      POSTGRES_PASSWORD: project
+      POSTGRES_USER: project
+      POSTGRES_DB: project
+
+  web:
+    image: "nginx:${NGINX_VERSION:-1.21}"
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/:/etc/nginx/conf.d
+    container_name: symf_test_nginx
+
+volumes:
+  db_data:
