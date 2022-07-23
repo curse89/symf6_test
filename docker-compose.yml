@@ -10,11 +10,11 @@ services:
     working_dir: /symfony_app
     user: ${UID:-1000}:${GID:-1000}
     restart: unless-stopped
+    environment:
+      PHP_IDE_CONFIG: "serverName=DevServer"
     volumes:
       - ./:/symfony_app
-    deploy:
-      mode: replicated
-      replicas: 1
+      - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     depends_on:
       - db
     container_name: symf_test_php
@@ -24,8 +24,6 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
-    volumes:
-      - db_data
     container_name: symf_test_db
     environment:
       POSTGRES_PASSWORD: project
@@ -39,8 +37,5 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./docker/nginx/:/etc/nginx/conf.d
+      - .docker/nginx/:/etc/nginx/conf.d
     container_name: symf_test_nginx
-
-volumes:
-  db_data:

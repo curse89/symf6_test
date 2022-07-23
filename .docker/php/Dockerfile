@@ -23,4 +23,6 @@ RUN apt update && apt -y upgrade && apt install -y git \
 
 RUN docker-php-ext-install -j$(nproc) intl soap pcntl sockets pdo_pgsql zip
 
+RUN pecl install pcov redis xdebug && docker-php-ext-enable pcov redis xdebug
+
 CMD ["php-fpm"]

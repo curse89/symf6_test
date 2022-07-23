@@ -20,3 +20,6 @@ symf_create_composer:
 vue_install:
 	@yarn global add @vue/cli
 	@vue upgrade --next
+
+up:
+	docker-compose up
