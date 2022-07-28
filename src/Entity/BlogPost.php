@@ -14,10 +14,10 @@ class BlogPost
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $slug = null;
+    public ?string $slug = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $text = null;
+    public ?string $text = null;
 
     public function getId(): ?int
     {

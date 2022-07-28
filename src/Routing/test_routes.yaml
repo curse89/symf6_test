@@ -1,0 +1,3 @@
+php_post:
+    path: /test
+    controller: App\Controller\CustomController

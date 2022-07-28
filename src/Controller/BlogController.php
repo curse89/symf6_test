@@ -2,13 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\BlogPost;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
+#[Route('/blog', name: 'blog_')]
 class BlogController extends AbstractController
 {
     #[Route('/', name: 'start', methods: ['GET'])]
@@ -46,7 +53,7 @@ class BlogController extends AbstractController
         return new JsonResponse($page);
     }
 
-    #[Route('/blog/{slug}', name: 'blog_print', priority: 3)]
+    #[Route('/blog/{slug}', name: 'blog_print', schemes: ['https'], priority: 3)]
     public function print(string $slug)
     {
         return new JsonResponse("print - $slug");
@@ -56,8 +63,38 @@ class BlogController extends AbstractController
      * This route could not be matched without defining a higher priority than 0.
      */
     #[Route('/blog/list', name: 'blog_list', priority: 4)]
-    public function list()
+    public function list(): JsonResponse
     {
         return new JsonResponse("list");
+    }
+
+    #[Route('/blog/post/{slug}', host: 'localhost')]
+    public function blogpost(BlogPost $post1, Request $req): JsonResponse
+    {
+        try {
+            $url = $this->generateUrl('blog_blog_list', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        } catch (RouteNotFoundException $e) {
+            $a = 2;
+        }
+
+        return new JsonResponse($post1);
+    }
+
+    #[Route(
+        path: '/articles/{_locale}/search.{_format}',
+        requirements: [
+            '_locale' => 'en|ru',
+            '_format' => 'html|xml',
+        ],
+        locale: 'en',
+        format: 'html',
+    )]
+    public function search(Request $req, RequestStack $stack): Response
+    {
+
+        $routeName = $req->attributes->get('_route');
+        $routePar = $req->attributes->get('_route_params');
+        $allAttr = $req->attributes->all();
+        return new Response($req);
     }
 }
