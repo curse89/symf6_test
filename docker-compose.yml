@@ -9,7 +9,6 @@ services:
       dockerfile: .docker/php/Dockerfile
     working_dir: /symfony_app
     user: ${UID:-1000}:${GID:-1000}
-    restart: unless-stopped
     environment:
       PHP_IDE_CONFIG: "serverName=DevServer"
     volumes:
@@ -23,7 +22,6 @@ services:
     image: "postgres:${POSTGRES_VERSION:-14}"
     ports:
       - "5432:5432"
-    restart: unless-stopped
     container_name: symf_test_db
     environment:
       POSTGRES_PASSWORD: project

@@ -9,6 +9,11 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
         <div>Privet</div>
+        {% for message in app.flashes('notice') %}
+            <div class="flash-notice">
+                {{ message }}
+            </div>
+        {% endfor %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

@@ -28,7 +28,3 @@ services:
 
 #    App\Routing\AdvancedLoader:
 #        tags: [ routing.loader ]
-
-    App\EventListener\RequestListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request }

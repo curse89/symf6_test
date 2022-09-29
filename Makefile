@@ -23,3 +23,6 @@ vue_install:
 
 up:
 	docker-compose up
+
+in:
+	docker exec -it symf_test_php bash
