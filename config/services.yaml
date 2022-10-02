@@ -14,12 +14,12 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+    #App\:
+        #resource: '../src/'
+        #exclude:
+        #    - '../src/DependencyInjection/'
+        #    - '../src/Entity/'
+        #    - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -32,3 +32,64 @@ services:
     App\EventListener\RequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
+
+    App\Service\MessageGenerator:
+        arguments:
+            $logger: '@monolog.logger.request'
+            $str: 'something'
+
+    site_update_manager.superadmin:
+        class: App\Service\SiteUpdaterManager
+        # you CAN still use autowiring: we just want to show what it looks like without
+        autowire: false
+        # manually wire all arguments
+        arguments:
+            - '@App\Service\MessageGenerator'
+            - '@mailer'
+            - 'superadmin@example.com'
+
+    site_update_manager.normal_users:
+        class: App\Service\SiteUpdaterManager
+        autowire: false
+        arguments:
+            - '@App\Service\MessageGenerator'
+            - '@mailer'
+            - 'contact@example.com'
+
+    App\Service\SiteUpdaterManager: '@site_update_manager.superadmin'
+
+    App\Service\TwitterClient:
+        autowire: true
+
+    transformer:
+        class: App\Util\Rot13Transformer
+        autowire: true
+        tags: ['trans', 'trans1']
+
+    testalias: '@transformer'
+    #App\Util\Rot13Transformer: '@transformer'
+    #App\Util\TransformerInterface: '@transformer'
+
+    App\Controller\DiController: ~
+
+    #App\Util\Rot13Transformer: ~
+    #App\Util\UppercaseTransformer: ~
+
+    #App\Util\TransformerInterface $shoutyTransformer: '@App\Util\UppercaseTransformer'
+    #App\Util\TransformerInterface: '@App\Util\Rot13Transformer'
+
+    App\Mail\EmailConfigurator: ~
+    App\Mail\EmailFormatterManager: ~
+
+    App\Mail\NewsletterManager:
+        configurator: '@App\Mail\EmailConfigurator'
+
+    App\Mail\GreetingCardManager:
+        configurator: ['@App\Mail\EmailConfigurator', 'configure' ]
+
+    App\Mail\MailerConfiguration: ~
+
+    App\Mail\Mailer:
+        arguments: ['@=service("App\\Mail\\MailerConfiguration").getMailerMethod()']
+        properties:
+            asd: 'JOPA'

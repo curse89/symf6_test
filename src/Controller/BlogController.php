@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\BlogPost;
+use App\Service\MessageGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,16 +19,20 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 #[Route('/blog', name: 'blog_')]
 class BlogController extends AbstractController
 {
+    public function __construct(public MessageGenerator $messageGenerator)
+    {
+    }
+
     #[Route('/', name: 'start', methods: ['GET'])]
     public function start(): JsonResponse
     {
-        return new JsonResponse('privet');
+        return new JsonResponse('privet1');
     }
 
     #[Route('/index/blog', name: 'blog', methods: ['GET'])]
     public function index(): JsonResponse
     {
-        return new JsonResponse('blog - index');
+        return new JsonResponse($this->messageGenerator->str);
     }
 
     #[Route(
