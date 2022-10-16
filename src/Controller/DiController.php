@@ -2,8 +2,14 @@
 
 namespace App\Controller;
 
+use App\Email\NotExistEmailService;
 use App\Mail\Mailer;
+use App\Newsletter\DecoratingMailer;
+use App\Newsletter\DMailer;
+use App\Newsletter\NewsletterManager as NLetter;
 use App\Mail\NewsletterManager;
+use App\Newsletter\NewsletterManager as Emanager;
+use App\Repository\DoctrinePostRepository;
 use App\Util\Rot13Transformer;
 use App\Util\TransformerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,6 +64,47 @@ class DiController extends AbstractController
 
     #[Route('/di/5', name: 'app_di5')]
     public function test5(Mailer $mailer): Response
+    {
+        return $this->render('di/index.html.twig', [
+            'controller_name' => 'DiController',
+        ]);
+    }
+
+    #[Route('/di/6', name: 'app_di6')]
+    public function test6(Emanager $manager): Response
+    {
+        return $this->render('di/index.html.twig', [
+            'controller_name' => 'DiController',
+        ]);
+    }
+
+    #[Route('/di/7', name: 'app_di7')]
+    public function test7(NotExistEmailService $service): Response
+    {
+        return $this->render('di/index.html.twig', [
+            'controller_name' => 'DiController',
+        ]);
+    }
+
+    #[Route('/di/8', name: 'app_di8')]
+    public function test8(DoctrinePostRepository $rep): Response
+    {
+        return $this->render('di/index.html.twig', [
+            'controller_name' => 'DiController',
+        ]);
+    }
+
+    #[Route('/di/9', name: 'app_di9')]
+    public function test9(NLetter $man): Response
+    {
+        $req = $man->requestStack->getCurrentRequest();
+        return $this->render('di/index.html.twig', [
+            'controller_name' => 'DiController',
+        ]);
+    }
+
+    #[Route('/di/10', name: 'app_di10')]
+    public function test10(DecoratingMailer $man): Response
     {
         return $this->render('di/index.html.twig', [
             'controller_name' => 'DiController',
