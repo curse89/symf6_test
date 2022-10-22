@@ -12,6 +12,8 @@ use App\Newsletter\NewsletterManager as Emanager;
 use App\Repository\DoctrinePostRepository;
 use App\Util\Rot13Transformer;
 use App\Util\TransformerInterface;
+use Curse89\AppBundle;
+use Curse89\Curse89TestBundle;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Response;
@@ -105,6 +107,14 @@ class DiController extends AbstractController
 
     #[Route('/di/10', name: 'app_di10')]
     public function test10(DecoratingMailer $man): Response
+    {
+        return $this->render('di/index.html.twig', [
+            'controller_name' => 'DiController',
+        ]);
+    }
+
+    #[Route('/di/11', name: 'app_di11')]
+    public function test11(AppBundle $bundle): Response
     {
         return $this->render('di/index.html.twig', [
             'controller_name' => 'DiController',

@@ -7,6 +7,6 @@ class RequestListener
     public function onKernelRequest($event)
     {
         //die('!');
-        echo 'privet';
+        // echo 'privet';
     }
 }

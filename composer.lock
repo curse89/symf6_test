@@ -4,8 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33c1d4abccef088f835e6f355f2395ed",
+    "content-hash": "0736d21f8985ba37c336db86c7bb8458",
     "packages": [
+        {
+            "name": "curse89/test-bundle",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/curse89/test-bundle.git",
+                "reference": "8a9278bc90736ba0743b4d337a6a06fa0a176285"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/curse89/test-bundle/zipball/8a9278bc90736ba0743b4d337a6a06fa0a176285",
+                "reference": "8a9278bc90736ba0743b4d337a6a06fa0a176285",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/config": "^6.1",
+                "symfony/dependency-injection": "^6.1",
+                "symfony/http-kernel": "^6.0"
+            },
+            "default-branch": true,
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Curse89\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "curse89"
+                }
+            ],
+            "description": "test",
+            "support": {
+                "source": "https://github.com/curse89/test-bundle/tree/main",
+                "issues": "https://github.com/curse89/test-bundle/issues"
+            },
+            "time": "2022-10-22T21:04:37+00:00"
+        },
         {
             "name": "doctrine/annotations",
             "version": "1.13.3",
@@ -9781,8 +9822,10 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "curse89/test-bundle": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
