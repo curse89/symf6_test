@@ -179,3 +179,11 @@ services:
     #$container->set('app.synthetic_service', $theService); в процессе выполнения кода
     app.synthetic_service:
         synthetic: true
+
+    App\EventListener\EntityListener:
+        tags:
+            -
+                name: 'doctrine.event_listener'
+                event: 'prePersist'
+                priority: 500
+                connection: 'default'

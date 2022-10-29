@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BlogPostRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BlogPostRepository::class)]
 class BlogPost
@@ -14,6 +15,10 @@ class BlogPost
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 10,
+        max: 12
+    )]
     public ?string $slug = null;
 
     #[ORM\Column(length: 255)]
