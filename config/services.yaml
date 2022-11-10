@@ -29,6 +29,21 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    Redis:
+        class: Predis\Client
+        arguments:
+            - '%env(resolve:REDIS_DSN)%'
+            - { retry_interval: 2, timeout: 30 }
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+        arguments:
+            - '@Redis'
+            - { ttl: !closure '@ttl.handler' }
+
+    ttl.handler:
+        class: App\Session\TtlHandler
+
     App\Routing\CustomRouteLoader:
         tags: [ routing.loader ]
 

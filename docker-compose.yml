@@ -37,3 +37,8 @@ services:
     volumes:
       - .docker/nginx/:/etc/nginx/conf.d
     container_name: symf_test_nginx
+
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
