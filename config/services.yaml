@@ -30,6 +30,18 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    #monolog.formatter.session_request:
+    #    class: Monolog\Formatter\LineFormatter
+    #    arguments:
+    #        - "[%%extra.test%%] [%%datetime%%] [%%extra.token%%] %%channel%%.%%level_name%%: %%message%% %%context%% %%extra%%\n"
+
+    #Symfony\Bridge\Monolog\Processor\WebProcessor:
+    #    tags:
+    #        - { name: monolog.processor }
+    #App\Logger\SessionRequestProcessor:
+    #    tags:
+    #        - { name: monolog.processor, handler: monolog_redis }
+
     Redis:
         class: Predis\Client
         arguments:

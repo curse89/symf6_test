@@ -1,15 +1,30 @@
 monolog:
     channels:
         - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
+        - chicken
 
 when@dev:
     monolog:
         handlers:
             main:
+                type: fingers_crossed
+                action_level: error
+                handler: main_stream
+                excluded_http_codes: [ 404, 405 ]
+                channels: [ "!event" ]
+            main_stream:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
-                channels: ["!event"]
+                #channels: ["!event", "!chicken"]
+            #monolog_redis:
+            #    redis: Redis
+            #    level: info
+            #    type: predis
+            #    bubble: false
+            #    formatter: monolog.formatter.session_request
+                #host: 'tcp://127.0.0.1:6379'
+
             # uncomment to get logging in your browser
             # you may have to allow bigger header sizes in your Web server configuration
             #firephp:
