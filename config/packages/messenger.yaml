@@ -13,12 +13,28 @@ framework:
                     max_retries: 3
                     multiplier: 2
             failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
+            sync: 'sync://'
+            pheanstalk:
+                dsn: '%env(PHEANSTALK_TRANSPORT_DSN)%'
+                retry_strategy:
+                    max_retries: 3
+                    delay: 1000
+                    multiplier: 2
+                    max_delay: 0
+            doctrine:
+                dsn: '%env(DOCTRINE_TRANSPORT_DSN)%'
+                options:
+                    queue_name: 'doctrine_queue'
+                    redeliver_timeout: 3600
+                    auto_setup: true
 
         routing:
             Symfony\Component\Mailer\Messenger\SendEmailMessage: async
-            Symfony\Component\Notifier\Message\ChatMessage: async
+            #Symfony\Component\Notifier\Message\ChatMessage: async
             Symfony\Component\Notifier\Message\SmsMessage: async
+            App\Message\SmsNotification: sync
+            App\Message\QueueCommandMessage: pheanstalk
+            App\Message\DoctrineMessage: doctrine
 
             # Route your messages to the transports
             # 'App\Message\YourMessage': async

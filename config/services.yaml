@@ -214,3 +214,14 @@ services:
                 event: 'prePersist'
                 priority: 500
                 connection: 'default'
+
+    App\MessageHandler\SmsNotificationHandler:
+        tags:
+            -
+                name: messenger.message_handler
+                handles: App\Message\SmsNotification
+
+    App\MessageHandler\QueueCommandMessageHandler:
+        tags:
+            -   name: messenger.message_handler
+                handles: App\Message\QueueCommandMessage

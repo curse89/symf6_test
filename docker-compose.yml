@@ -43,3 +43,30 @@ services:
     ports:
       - "6379:6379"
     container_name: symf_redis
+
+#  queue:
+#    image: "schickling/beanstalkd:${QUEUE_VERSION:-latest}"
+#    ports:
+#      - "11300:11300"
+#    init: true
+#    container_name: symf_queue
+
+#  worker:
+#    build:
+#      context: .
+#      args:
+#        - PHP_VERSION=${PHP_VERSION:-8.1.8}
+#      dockerfile: .docker/php/Dockerfile
+#    working_dir: /symfony_work
+#    user: ${UID:-1000}:${GID:-1000}
+#    environment:
+#      PHP_IDE_CONFIG: "serverName=DevServer1"
+#    restart: unless-stopped
+#    entrypoint: ["php", "/symfony_work/bin/console"]
+#    command: ["messenger:consume", "pheanstalk", "--limit", "10", "-vv"]
+ #   volumes:
+ #     - ./:/symfony_work
+ #    - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+ #  depends_on:
+ #      - queue
+  #  container_name: symf_worker
